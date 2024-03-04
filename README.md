@@ -1,14 +1,9 @@
 # Team Name
-
+## GEOG575 Spring 2024
 ### Team Members
-
+1. Morgan
 ### Final Proposal
-1. Persona/Scenario
-    1. Persona
-    2. Scenario
-2. Requirements Document
-
-3. Wireframes
+1. No Plan just yet
 
 
 
