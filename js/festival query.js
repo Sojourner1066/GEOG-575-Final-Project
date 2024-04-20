@@ -1,6 +1,6 @@
 
 
-function testapi(){
+function festivalQuery(){
     var apikey = 'VcXVvrZqh1bwyvCeGQQgoMomydmwFLtm',
     // these parameters filter the results to only 50 music
     // festivals in the US during the summer of 2024  
@@ -16,16 +16,16 @@ function testapi(){
         async:true,
         dataType: "json",
         success: function(json) {
-                    console.log(json);
-                //     const attractions = json._embedded.attractions;
-                //     attractions.forEach(attraction => {
-                //         // console.log(attraction);
-                //         num_event = attraction.upcomingEvents.ticketmaster
-                //         // console.log(num_event)
-                //         if (num_event>1){
-                //             console.log(attraction)
-                //         }
-                // })
+                //    console.log(json);
+                    const attractions = json._embedded.attractions;
+                    attractions.forEach(attraction => {
+                        // console.log(attraction);
+                        num_event = attraction.upcomingEvents.ticketmaster
+                        // console.log(num_event)
+                        if (num_event>1){
+                            console.log(attraction)
+                        }
+                })
             },
         error: function(xhr, status, err) {
                     // This time, we do not end up here!
@@ -34,4 +34,4 @@ function testapi(){
     };
 
 
-document.addEventListener('DOMContentLoaded',testapi(builtUrl))
+document.addEventListener('DOMContentLoaded',festivalQuery())

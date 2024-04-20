@@ -1,17 +1,24 @@
 // Define Ticketmaster API endpoint and parameters
-const url = "https://app.ticketmaster.com/discovery/v2/events.json";
-const artistId = "K8vZ917QTXV"; // Replace with the ID of the artist you're interested in
-const apiKey = "VcXVvrZqh1bwyvCeGQQgoMomydmwFLtm"; // Replace with your Ticketmaster API key
+var url = "https://app.ticketmaster.com/discovery/v2/events.json";
+var artistId = "K8vZ917QTXV"; // Replace with the ID of the artist you're interested in
+var apiKey = "VcXVvrZqh1bwyvCeGQQgoMomydmwFLtm"; // Replace with your Ticketmaster API key
 
-// Parameters for the query
-const params = {
+// Parameters for the query this is how the data is filtered
+// this will return only festivals in the summer months 
+// in the us. The max number is set by size (200 max)
+var params = {
   apikey: apiKey,
-  attractionId: artistId
+  classificationName: 'festival',
+  classificationId: 'KZFzniwnSyZfZ7v7nJ',
+  startDateTime: '2024-06-01T00:00:00Z',
+  endDateTime: '2024-08-31T23:59:00Z',
+  countryCode: 'US',
+  size: 100,
 };
 
 // Construct query URL with parameters
-const queryString = new URLSearchParams(params).toString();
-const queryUrl = `${url}?${queryString}`;
+var queryString = new URLSearchParams(params).toString();
+var queryUrl = `${url}?${queryString}`;
 
 // Make the API request
 fetch(queryUrl)
