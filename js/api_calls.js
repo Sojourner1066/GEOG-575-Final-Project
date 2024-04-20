@@ -1,3 +1,5 @@
+function getVenueLocation(){
+
 // Define Ticketmaster API endpoint and parameters
 const url = "https://app.ticketmaster.com/discovery/v2/events.json";
 const artistId = "K8vZ917QTXV"; // Replace with the ID of the artist you're interested in
@@ -42,3 +44,7 @@ fetch(queryUrl)
   .catch(error => {
     console.error("Error:", error);
   });
+ return([venueName,latitude,longitude]) 
+};
+
+function getArtistsEvents(){}
