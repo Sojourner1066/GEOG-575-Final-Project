@@ -1,22 +1,68 @@
 //insert code here!
 
-var map;
-mapboxgl.accessToken = 'pk.eyJ1IjoibG1jY2xpbnRvY2syIiwiYSI6ImNsbzY0c2IweTBnNXcycm84dnEyMXBvaHAifQ.gZQ4VJyURj991pygjGxm3w'
-
-
-//create the map
-map = new mapboxgl.Map({
-    container: 'map', // container ID
-    style: 'mapbox://styles/lmcclintock2/clv33n4v401xx01pebykv37ls', // style URL
-    center: [-100, 40], // starting position [lng, lat]
-    zoom: 4 // starting zoom
-
+var map = L.map('map', {
+    center: [39,-95],
+    zoom: 5
 });
-map.addControl(
-    new MapboxDirections({
-        accessToken: mapboxgl.accessToken
-    }),
-    'top-right'
-);
+
+L.tileLayer('https://api.mapbox.com/styles/v1/lmcclintock2/clv33n4v401xx01pebykv37ls/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibG1jY2xpbnRvY2syIiwiYSI6ImNsbzY0c2IweTBnNXcycm84dnEyMXBvaHAifQ.gZQ4VJyURj991pygjGxm3w',{
+    attribution: 'Imagery &copy; <a href="http://mapbox.com">Mapbox</a>'
+}).addTo(map);
 
 
+// Define Ticketmaster API endpoint and parameters
+var url = "https://app.ticketmaster.com/discovery/v2/events.json";
+var artistId = "K8vZ917QTXV"; // Replace with the ID of the artist you're interested in
+var apiKey = "VcXVvrZqh1bwyvCeGQQgoMomydmwFLtm"; // Replace with your Ticketmaster API key
+
+// Parameters for the query this is how the data is filtered
+// this will return only festivals in the summer months 
+// in the us. The max number is set by size (200 max)
+var params = {
+  apikey: apiKey,
+  classificationName: 'festival',
+  classificationId: 'KZFzniwnSyZfZ7v7nJ',
+  startDateTime: '2024-06-01T00:00:00Z',
+  endDateTime: '2024-08-31T23:59:00Z',
+  countryCode: 'US',
+  size: 100,
+};
+
+// Construct query URL with parameters
+var queryString = new URLSearchParams(params).toString();
+var queryUrl = `${url}?${queryString}`;
+
+var recordIcon = L.icon({
+    iconUrl: 'img/record.png',
+    iconSize: [25,25]
+});
+// Make the API request
+fetch(queryUrl)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+    // Extract event information from the response
+    const events = data._embedded.events;
+    events.forEach(event => {
+      const eventName = event.name;
+      venues = event._embedded.venues;
+      venues.forEach(venue => {
+        const venueName = venue.name;
+        const latitude = venue.location.latitude;
+        const longitude = venue.location.longitude;
+        console.log(venueName,latitude,longitude);
+        marker = L.marker([latitude, longitude], {icon: recordIcon}).addTo(map).bindPopup(eventName + "<br>" + venueName);
+      })
+      //const venue = event._embedded.venues[0]; // Assuming one venue per event
+        
+    // });
+  })
+})
+  .catch(error => {
+    console.error("Error:", error);
+  });

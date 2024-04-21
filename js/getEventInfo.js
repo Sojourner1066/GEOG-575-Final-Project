@@ -42,7 +42,7 @@ fetch(queryUrl)
         console.log(venueName,latitude,longitude);
       })
       //const venue = event._embedded.venues[0]; // Assuming one venue per event
-      
+        
     // });
   })
 })
