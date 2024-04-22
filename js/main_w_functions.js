@@ -1,5 +1,27 @@
 //insert code here!
 
+genre_dict = {'Metal': 'KnvZfZ7vAvt',
+              'Other': 'KnvZfZ7vAvl',
+              'Pop': 'KnvZfZ7vAev',
+              'Rock': 'KnvZfZ7vAeA',
+              'Dance/Electronic': 'KnvZfZ7vAvF',
+              'Hip-Hop/Rap': 'KnvZfZ7vAv1',
+              'Latin': 'KnvZfZ7vAJ6',
+              'Alternative': 'KnvZfZ7vAvv',
+              'Country': 'KnvZfZ7vAv6',
+              'Jazz': 'KnvZfZ7vAvE',
+              'R&B': 'KnvZfZ7vAee',
+              'Blues': 'KnvZfZ7vAvd',
+              'Classical': 'KnvZfZ7v7nJ',
+              'Dance': 'KnvZfZ7v7nI',
+              'Folk': 'KnvZfZ7vAva',
+              'World': 'KnvZfZ7vAeF',
+              'Reggae': 'KnvZfZ7vAed',
+
+}
+
+
+
 function createMap(){
     var map = L.map('map', {
         center: [39,-95],
@@ -11,14 +33,16 @@ function createMap(){
     }).addTo(map);
 
     // loads the basic concert icons onto the map at startup
-    getConcertInfo(filter_keyword='', filter_event_type='festival',map)
+    // getConcertInfo(filter_keyword='', filter_event_type='Festival', genreID=genre_dict['Rock'], map)
+    getConcertInfo(filter_keyword='', filter_event_type='Concert', genreID=genre_dict['Rock'], map)
 };
 
 
-function getConcertInfo(filter_keyword, filter_event_type,map){
+
+
+function getConcertInfo(filter_keyword, filter_event_type, genreID, map){
   // Define Ticketmaster API endpoint and parameters
   var url = "https://app.ticketmaster.com/discovery/v2/events.json";
-  var artistId = "K8vZ917QTXV"; // Replace with the ID of the artist you're interested in
   var apiKey = "VcXVvrZqh1bwyvCeGQQgoMomydmwFLtm"; // Replace with your Ticketmaster API key
 
   // Parameters for the query this is how the data is filtered
@@ -28,11 +52,12 @@ function getConcertInfo(filter_keyword, filter_event_type,map){
     apikey: apiKey,
     classificationName: filter_event_type,
     keyword: filter_keyword,
-    classificationId: 'KZFzniwnSyZfZ7v7nJ',
+    genreId: genreID,
+    classificationId: 'KZFzniwnSyZfZ7v7nJ', // this is the filter to be only music events
     startDateTime: '2024-06-01T00:00:00Z',
     endDateTime: '2024-08-31T23:59:00Z',
     countryCode: 'US',
-    size: 10,
+    size: 100,
   };
 
   // Construct query URL with parameters
@@ -52,7 +77,7 @@ function getConcertInfo(filter_keyword, filter_event_type,map){
       return response.json();
     })
     .then(data => {
-      //console.log(data);
+      // console.log(data);
       // Extract event information from the response
       const events = data._embedded.events;
       events.forEach(event => {
@@ -63,7 +88,7 @@ function getConcertInfo(filter_keyword, filter_event_type,map){
           const venueName = venue.name;
           const latitude = venue.location.latitude;
           const longitude = venue.location.longitude;
-          //console.log(venueName,latitude,longitude);
+          console.log(venueName,latitude,longitude);
           var popupHTML = popupContents(event);
           marker = L.marker([latitude, longitude], {icon: recordIcon}).addTo(map).bindPopup(popupHTML);
         })
@@ -103,9 +128,9 @@ function popupContents(event){
   var artists_list = event._embedded.attractions
   var artist_table_list = []
 
-  if (artists_list.length > 5){
+  if (artists_list.length > 3){
     artists_list.forEach(artist =>{
-      if (artist_count <= 5){
+      if (artist_count <= 3){
         var artitsName = artist.name;
         artistImage = getImageInfo(artist.images);
         artist_table_list.push([artistImage,artitsName]);
@@ -136,7 +161,7 @@ function popupContents(event){
   artist_table = artist_table + '</tr></table>';
 
 
-  console.log(artist_table)
+  // console.log(artist_table)
   // add elements into html for the popup
   popupContent = `<p><b>${event.name}</b></p><p>${event_image}<br>${artist_table}`
   // popupContent = `<p><b>${event.name}</b>`;
