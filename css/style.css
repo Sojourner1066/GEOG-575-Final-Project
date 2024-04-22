@@ -12,78 +12,74 @@
     color: #e7722e;
     }
 
-#instructions {
-    position: absolute;
-    margin: 20px;
-    width: 25%;
-    top: 0;
-    bottom: 20%;
-    padding: 20px;
-    background-color: #fff;
-    overflow-y: scroll;
-    font-family: sans-serif;
+.p {
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #7a412b;  
     }
 
-
-.mapbox-directions-origin .mapbox-form-label {
-      background-color:#3bb2d0;
-      border-radius:3px 0 0 0;
-      box-shadow:0 1px 0 0 rgba(0,0,0,0.1);
-      z-index:1;
-      }
-
-.mapbox-form-label {
-    position:absolute;
-    top:0;left:0;
-    background:#8a8acb;
-    color:#fff;
-    padding:0;
-    width:40px;
-    height:40px;
-    text-align:center;
-    line-height:38px;
-    border-radius:0 0 0 3px;
+.popStyle .leaflet-popup-content-wrapper {
+    background-color: #fcedda;
+    }  
+.popStyle .leaflet-popup-tip{
+    background-color: #fcedda;
     }
 
-.mapbox-directions-route-summary {
+.popTitle {
+    font-family: "Original Surfer", sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: #e7722e;
+    }
+
+.popInfo{
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #7a412b;  
+}
+.popLink{
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: #7a412b;  
+}
+
+.popImg{
+    height: 150px;
+    width: 150px;
+}
+
+.splash .leaflet-popup-content-wrapper {
+    background: #fdf7e4f3;
+    color: #e7722e;
+    border-radius: 10px;
+    width: 350px;
+    height: 425px;
+    text-align: center;
+    
+    }
+
+.splash .leaflet-popup-tip-container {
+    width:60px;
+    height:30px;
+    }
+    
+.splash .leaflet-popup-tip {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+.img{
+    height: 200px;
+    width: 200px;
     position: relative;
-    z-index:1;
-    width:100%;
-    background-color:rgba(168, 76, 0, 0.75);
-    color:#fff;
-    padding:5px 10px;
-    font-size:15px;
-    line-height:28px;
+    animation:4s rotate infinite linear; 
     }
-
-.mapbox-directions-route-summary span {
-    color:rgb(255, 255, 255);
-    margin:0 5px;
-    }
-
-.mapbox-directions-step {
-    position:relative;
-    color:rgba(255,255,255,.95);
-    cursor:pointer;
-    padding:20px 20px 20px 40px;
-    font-size:14px;
-    line-height:18px;
-    font-weight: 300;
-    letter-spacing:0.1em;
-    }
-
-.mapbox-directions-step:hover {
-    color:white;
-    }
-
-.directions-control.directions-control-directions {
-    background: rgba(236, 114, 46, 0.95);
-    margin: 7px 0 0;
-    color:#fff;
-    top:0;
-    right:0;
-    bottom:0;
-    overflow:auto;
-    overflow-x:hidden;
-    }
+    
+@keyframes rotate{
+        00%{ transform:rotate(1turn) } 
+}
 

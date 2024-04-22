@@ -1,13 +1,24 @@
 //insert code here!
-
 var map = L.map('map', {
     center: [39,-95],
     zoom: 5
 });
 
+
 L.tileLayer('https://api.mapbox.com/styles/v1/lmcclintock2/clv33n4v401xx01pebykv37ls/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibG1jY2xpbnRvY2syIiwiYSI6ImNsbzY0c2IweTBnNXcycm84dnEyMXBvaHAifQ.gZQ4VJyURj991pygjGxm3w',{
     attribution: 'Imagery &copy; <a href="http://mapbox.com">Mapbox</a>'
 }).addTo(map);
+
+
+var popup = L.popup({
+  closeButton: true,
+  autoClose: true,
+  className: "splash"
+})
+.setLatLng([29,-95])
+.setContent('<text class="t">Explore Summer Music!</text><br>' 
++ '<text class="p">Click on each record to find out more information about each festival.<center><br><img src="img/record.png" class="img"/></center>')
+.openOn(map)
 
 
 // Define Ticketmaster API endpoint and parameters
@@ -50,13 +61,18 @@ fetch(queryUrl)
     const events = data._embedded.events;
     events.forEach(event => {
       const eventName = event.name;
+      const eventDate = event.dates.start.localDate
+      
       venues = event._embedded.venues;
       venues.forEach(venue => {
         const venueName = venue.name;
         const latitude = venue.location.latitude;
         const longitude = venue.location.longitude;
         console.log(venueName,latitude,longitude);
-        marker = L.marker([latitude, longitude], {icon: recordIcon}).addTo(map).bindPopup(eventName + "<br>" + venueName);
+        var popupContent = '<center><img src="' + event.images[1].url +'"class="popImg"/><br>' + '<text class="popTitle">' +
+        eventName + '</text><br><text class="popInfo">' + venueName + '<br>' + eventDate + 
+        '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text></center>'
+        marker = L.marker([latitude, longitude], {icon: recordIcon}).addTo(map).bindPopup(popupContent, {className: 'popStyle'});
       })
       //const venue = event._embedded.venues[0]; // Assuming one venue per event
         
@@ -66,3 +82,5 @@ fetch(queryUrl)
   .catch(error => {
     console.error("Error:", error);
   });
+
+  
