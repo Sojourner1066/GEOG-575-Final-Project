@@ -71,13 +71,13 @@ fetch(queryUrl)
         // console.log(venueName,latitude,longitude);
         var popupContent = '<center><img src="' + event.images[1].url +'"class="popImg"/><br>' + '<text class="popTitle">' +
         eventName + '</text><br><text class="popInfo">' + venueName + '<br>' + eventDate + 
-        '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text><button id="tourBtn">Add Concert to Tour</button></center>'
-        marker = L.marker([latitude, longitude], {icon: recordIcon}).addTo(map).bindPopup(popupContent, {className: 'popStyle'});
+        '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text><br><button id="tourBtn">Add Concert to Tour</button></center>'  
+        marker = L.marker([latitude, longitude], {icon: recordIcon}).addTo(map)
+        marker.bindPopup(popupContent, {className: 'popStyle'});
+        // marker.bindPopup(popupContent, {className: 'popStyle'}).click(function() {
+        //     alert('Button clicked!');
+        //   })
       })
-      
-      // document.getElementById('tourBtn').addEventListener('click', function() {
-      //   alert('Button clicked!');
-      // });
       //const venue = event._embedded.venues[0]; // Assuming one venue per event
         
     // });
@@ -87,6 +87,8 @@ fetch(queryUrl)
     console.error("Error:", error);
   });
 
-
+  // document.getElementById($('tourBtn')).addEventListener('click', function() {
+  //   alert('Button clicked!');
+  // });
 
   
