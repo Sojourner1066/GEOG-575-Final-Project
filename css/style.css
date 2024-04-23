@@ -80,6 +80,6 @@
     }
     
 @keyframes rotate{
-        00%{ transform:rotate(1turn) } 
+        100%{ transform:rotate(1turn) } 
 }
 
