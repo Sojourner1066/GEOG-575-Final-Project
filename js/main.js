@@ -56,7 +56,7 @@ fetch(queryUrl)
     return response.json();
   })
   .then(data => {
-    console.log(data);
+    // console.log(data);
     // Extract event information from the response
     const events = data._embedded.events;
     events.forEach(event => {
@@ -68,12 +68,16 @@ fetch(queryUrl)
         const venueName = venue.name;
         const latitude = venue.location.latitude;
         const longitude = venue.location.longitude;
-        console.log(venueName,latitude,longitude);
+        // console.log(venueName,latitude,longitude);
         var popupContent = '<center><img src="' + event.images[1].url +'"class="popImg"/><br>' + '<text class="popTitle">' +
         eventName + '</text><br><text class="popInfo">' + venueName + '<br>' + eventDate + 
-        '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text></center>'
+        '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text><button id="tourBtn">Add Concert to Tour</button></center>'
         marker = L.marker([latitude, longitude], {icon: recordIcon}).addTo(map).bindPopup(popupContent, {className: 'popStyle'});
       })
+      
+      // document.getElementById('tourBtn').addEventListener('click', function() {
+      //   alert('Button clicked!');
+      // });
       //const venue = event._embedded.venues[0]; // Assuming one venue per event
         
     // });
@@ -82,5 +86,7 @@ fetch(queryUrl)
   .catch(error => {
     console.error("Error:", error);
   });
+
+
 
   
