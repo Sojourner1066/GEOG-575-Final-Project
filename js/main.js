@@ -64,7 +64,7 @@ fetch(queryUrl)
     events.forEach(event => {
       const eventName = event.name;
       const eventDate = event.dates.start.localDate
-      
+      console.log(eventDate);
       venues = event._embedded.venues;
       venues.forEach(venue => {
         const venueName = venue.name;
@@ -117,13 +117,15 @@ function dateFilter(){
       const eventDate = event.dates.start.localDate
       const eventUrl = event.url
       if (eventDate == inputDate) {
-        
+        console.log(events)
         eventList.push('<br><a href ="' + eventUrl +'"><text class="listLink">'+eventName+'</a></text><br>')
         document.getElementById("results").insertAdjacentHTML('beforeend',eventList)
-        getData();
-      }
+        
+        
+      } 
         
     })}
+    
 )}
 
  

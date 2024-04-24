@@ -6,9 +6,8 @@
     }
 #panel{
     height: 800px;
-    width: 17%;
-    display: inline-block;
-    position: relative;
+    width: 18%;
+    float: right;
     
 }
 
