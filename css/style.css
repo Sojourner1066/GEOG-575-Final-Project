@@ -4,6 +4,13 @@
     width: 80%;
     display: inline-block;
     }
+#panel{
+    height: 800px;
+    width: 17%;
+    display: inline-block;
+    position: relative;
+    
+}
 
 .t {
     font-family: "Original Surfer", sans-serif;
@@ -83,3 +90,17 @@
         100%{ transform:rotate(1turn) } 
 }
 
+.listLink{
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #7a412b;  
+}
+
+.dateTitle{
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: #7a412b;  
+    
+}

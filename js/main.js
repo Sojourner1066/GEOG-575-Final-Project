@@ -47,6 +47,8 @@ var recordIcon = L.icon({
     iconUrl: 'img/record.png',
     iconSize: [25,25]
 });
+
+function getData(){
 // Make the API request
 fetch(queryUrl)
   .then(response => {
@@ -56,7 +58,7 @@ fetch(queryUrl)
     return response.json();
   })
   .then(data => {
-    // console.log(data);
+    console.log(data);
     // Extract event information from the response
     const events = data._embedded.events;
     events.forEach(event => {
@@ -71,24 +73,59 @@ fetch(queryUrl)
         // console.log(venueName,latitude,longitude);
         var popupContent = '<center><img src="' + event.images[1].url +'"class="popImg"/><br>' + '<text class="popTitle">' +
         eventName + '</text><br><text class="popInfo">' + venueName + '<br>' + eventDate + 
-        '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text><br><button id="tourBtn">Add Concert to Tour</button></center>'  
-        marker = L.marker([latitude, longitude], {icon: recordIcon}).addTo(map)
-        marker.bindPopup(popupContent, {className: 'popStyle'});
-        // marker.bindPopup(popupContent, {className: 'popStyle'}).click(function() {
-        //     alert('Button clicked!');
-        //   })
-      })
-      //const venue = event._embedded.venues[0]; // Assuming one venue per event
-        
+        '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text><button id="tourBtn">Add Concert to Tour</button></center>'
+        marker = L.marker([latitude, longitude], {icon: recordIcon}).addTo(map).bindPopup(popupContent, {className: 'popStyle'});
+           
+    })
+   
+      // document.getElementById('tourBtn').addEventListener('click', function() {
+      //   alert('Button clicked!');
+      // });
+     //const venue = event._embedded.venues[0]; // Assuming one venue per event
+      
+      
     // });
-  })
+  }) 
+
 })
+
   .catch(error => {
     console.error("Error:", error);
   });
 
-  // document.getElementById($('tourBtn')).addEventListener('click', function() {
-  //   alert('Button clicked!');
-  // });
+}
 
-  
+function dateFilter(){
+  var inputDate = document.getElementById("festivalDate").value;
+  document.getElementById("results").innerHTML='';
+  var eventList = []
+  eventList.length = 0
+
+  fetch(queryUrl)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    // console.log(data);
+    // Extract event information from the response
+    const events = data._embedded.events;
+    events.forEach(event => {
+      const eventName = event.name;
+      const eventDate = event.dates.start.localDate
+      const eventUrl = event.url
+      if (eventDate == inputDate) {
+        
+        eventList.push('<br><a href ="' + eventUrl +'"><text class="listLink">'+eventName+'</a></text><br>')
+        document.getElementById("results").insertAdjacentHTML('beforeend',eventList)
+        getData();
+      }
+        
+    })}
+)}
+
+ 
+document.getElementById("festivalDate").addEventListener("change", dateFilter)
+document.addEventListener('DOMContentLoaded',getData()) 
