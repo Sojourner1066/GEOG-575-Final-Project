@@ -58,13 +58,13 @@ fetch(queryUrl)
     return response.json();
   })
   .then(data => {
-    console.log(data);
+    // console.log(data);
     // Extract event information from the response
     const events = data._embedded.events;
     events.forEach(event => {
       const eventName = event.name;
       const eventDate = event.dates.start.localDate
-      console.log(eventDate);
+      // console.log(eventDate);
       venues = event._embedded.venues;
       venues.forEach(venue => {
         const venueName = venue.name;
@@ -117,7 +117,7 @@ function dateFilter(){
       const eventDate = event.dates.start.localDate
       const eventUrl = event.url
       if (eventDate == inputDate) {
-        console.log(events)
+        // console.log(events)
         eventList.push('<br><a href ="' + eventUrl +'"><text class="listLink">'+eventName+'</a></text><br>')
         document.getElementById("results").insertAdjacentHTML('beforeend',eventList)
         
