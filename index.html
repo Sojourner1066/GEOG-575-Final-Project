@@ -34,10 +34,22 @@
         
         <div id='map'></div>
         <div id='panel'>
-            <text class="dateTitle" >Select Date</text><br>
-            <text class="popInfo">Generate a list of events happening on selected day.</text><br>
-            <input type="date" id="festivalDate"><br>
-            <div id='results'></div>
+            <text class="dateTitle">Select Date</text><br>
+            <text class="popInfo">Update the map to show everts on a selected day.</text><br>
+            <input type="date" id="festivalDate"><br><br>
+            <text class="dateTitle">Select a Music Genre</text><br>
+            <text class="popInfo">Only show events happening on selected day.</text><br>
+            <select id="selectGenre"><option selected disabled>Select a Genre</option></select><br><br>
+            <text class="dateTitle">Select a Concerts or Festivals</text><br>
+            <text class="popInfo">Only show events of a specific tyep.</text><br>
+            <select id="selectEventType">
+                <option style="display:none;" selected>Select an Event Type</option>
+                <option selected>Festivals</option>
+                <option selected>Concerts</option>
+            </select>
+
+            <!-- <div id='results'></div> -->
+
         </div>
             
         
