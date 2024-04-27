@@ -2,7 +2,9 @@
 
 
 // Define the start and end coordinates (latitude, longitude)
-coordinates_list = ['47.6062,-122.3321','34.0522,-118.2437']
+coordinates_list = ['33.95371247,-118.3368854','38.867998,-77.013642','38.96034787,-119.94291253']
+
+// coordinates_list = ['47.6062,-122.3321','34.0522,-118.2437']
 
 function getRouteDistance(coordinates_list){
     geojson_to_return =  {
@@ -15,19 +17,10 @@ function getRouteDistance(coordinates_list){
             }
         },
         "features": [
-            {
-                "type": "Feature",
-                "properties": {},
-                "geometry": {
-                    "type": "MultiLineString",
-                    "coordinates": [
-                        [
-                        ]
-                    ]
-                }
-            }
+            
         ]
     }
+
     // const apiUrl = `https://dev.virtualearth.net/REST/v1/Routes/Driving?waypoint.1=${startCoord}&waypoint.2=${endCoord}&distanceUnit=mi&key=${apiKey}`;
     var apiUrl = 'https://dev.virtualearth.net/REST/v1/Routes/Driving?o=json';
     const apiKey = 'AnlY8QF0iexa84_PKbKa68Gevl_aafwuBNTi1CapzJCtXldlgqnJ7LOaZ30ux9XB';
@@ -52,7 +45,7 @@ function getRouteDistance(coordinates_list){
         return response.json();
       })
       .then(data => {
-        // console.log(data);
+        console.log(data);
         
         var distance = data.resourceSets[0].resources[0].travelDistance;
         var duration = data.resourceSets[0].resources[0].travelDuration;
@@ -60,18 +53,45 @@ function getRouteDistance(coordinates_list){
         geojson_to_return.features[0].properties['TravelDistanceMiles'] = distance;
         geojson_to_return.features[0].properties['TravelDurationSeconds'] = duration;
         
-        var route = data.resourceSets[0].resources[0].routeLegs[0].itineraryItems;
-        route.forEach(wpt =>{
+        var route_segments = data.resourceSets[0].resources[0].routeLegs;
+        route_segments.forEach(route_legs => {
+          route_num = route_segments.indexOf(route_legs);
+          var route = route_legs.itineraryItems;
+          geojson_feature = {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+                "type": "MultiLineString",
+                "coordinates": [
+                    [
+                    ]
+                ]
+            }
+          }
+
+          route.forEach(wpt =>{
             var lat = wpt.maneuverPoint.coordinates[0];
             var long = wpt.maneuverPoint.coordinates[1];
-            geojson_to_return.features[0].geometry.coordinates[0].push([long, lat]);
+
+            // I think I need to just push another list of coordinates in the coordinates array
+
+            geojson_feature.geometry.coordinates[0].push([long, lat]);
+          })
+        geojson_to_return.features.push(geojson_feature) 
         })
+
+        // var route = data.resourceSets[0].resources[0].routeLegs[0].itineraryItems;
+        // route.forEach(wpt =>{
+        //     var lat = wpt.maneuverPoint.coordinates[0];
+        //     var long = wpt.maneuverPoint.coordinates[1];
+        //     geojson_to_return.features[0].geometry.coordinates[0].push([long, lat]);
+        // })
         console.log(geojson_to_return);
       })
       .catch(error => {
         console.error("Error:", error);
       });
-    //return geojson_to_return
+    // return geojson_to_return
 };
 
 document.addEventListener('DOMContentLoaded',getRouteDistance(coordinates_list))
