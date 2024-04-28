@@ -19,34 +19,35 @@
     <body style="background-color: #ffe9d385;">
         <!--put your initial page content here-->
         <div id="title">
-            <text class="t">2024 Summer Festival Finder </text>
+            <text class="t">2024 Summer Music Finder </text>
         </div>
         
         <div id='map'></div>
         <div id='panel'>
             <!-- Create a date selection tool -->
             <text class="dateTitle">Select Date</text><br>
-            <text class="popInfo">Update the map to show everts on a selected day.</text><br>
+            <text class="popInfo">Update the map to show events on a selected day.</text><br>
             <input type="date" id="festivalDate" value="2024-06-01" min="2024-06-01" max="2024-08-31"><br><br>
-            
+            <text class="popInfo">---- OR ----</text><br><br>
             <!-- Create a Genre dropdown selector -->
             <text class="dateTitle">Select a Music Genre</text><br>
-            <text class="popInfo">Only show events from the selected Genre.</text><br>
+            <text class="popInfo">Only show events from the selected genre.</text><br>
             <select id="selectGenre">
                 <option disabled selected hidden>Select a Genre</option>
             </select><br><br>
+            <text class="popInfo">---- OR ----</text><br><br>
 
             <!-- Create a Event dropdown selector -->
-            <text class="dateTitle">Select an Music Event Type</text><br>
+            <text class="dateTitle">Select a Music Event Type</text><br>
             <text class="popInfo">Only show events from the selected type.</text><br>
             <select id="selectEventType">
                 <option disabled selected hidden>Select an Event Type</option>
                 <option>Festivals</option>
                 <option>Concerts</option>
             </select>
- 
-        </div>
             
+        </div>
+        <text class="credits">Sources: Ticketmaser Developer, Leaflet, Mapbox Studio</text>    
         
         </script>
         

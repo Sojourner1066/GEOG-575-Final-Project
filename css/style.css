@@ -103,3 +103,14 @@
     color: #7a412b;  
     
 }
+
+.credits{
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    color: #7a412b;
+    position: relative; 
+    bottom: 0; 
+    left: 0;
+    
+}

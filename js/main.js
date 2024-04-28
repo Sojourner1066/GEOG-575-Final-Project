@@ -48,7 +48,7 @@ var popup = L.popup({
 })
 .setLatLng([29,-95])
 .setContent('<text class="t">Explore Summer Music!</text><br>' 
-+ '<text class="p">Click on each record to find out more information about each festival.<center><br><img src="img/record1.png" class="img"/></center>')
++ '<text class="p">Click on each record to find out more information about each event.<center><br><img src="img/record1.png" class="img"/></center>')
 .openOn(map)
  
 
