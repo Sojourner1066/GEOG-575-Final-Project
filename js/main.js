@@ -52,37 +52,6 @@ var popup = L.popup({
 .openOn(map)
  
 
-
-
-// function createMap(){
-//     var map = L.map('map', {
-//         center: [39,-95],
-//         zoom: 5
-//       });
-
-//     L.tileLayer('https://api.mapbox.com/styles/v1/lmcclintock2/clv33n4v401xx01pebykv37ls/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibG1jY2xpbnRvY2syIiwiYSI6ImNsbzY0c2IweTBnNXcycm84dnEyMXBvaHAifQ.gZQ4VJyURj991pygjGxm3w',{
-//         attribution: 'Imagery &copy; <a href="http://mapbox.com">Mapbox</a>'
-//     }).addTo(map);
-//   // Create a layer group for the markers
-//     var eventsLayer = L.layerGroup().addTo(map);
-//     getConcertInfo(filter_keyword='', filter_event_type='Concert', filter_event_date=null, genreID=genre_dict['Rock'], map);
-
-//     // This adds a splash screen with basic user info to the map at startup
-//     var popup = L.popup({
-//       closeButton: true,
-//       autoClose: true,
-//       className: "splash"
-//     })
-//     .setLatLng([29,-95])
-//     .setContent('<text class="t">Explore Summer Music!</text><br>' 
-//     + '<text class="p">Click on each record to find out more information about each festival.<center><br><img src="img/record1.png" class="img"/></center>')
-//     .openOn(map)
-   
-// };
-
-
-
-
 function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, genreID, map){
  
 //  this will remove any marker data from map so new data can be loaded
@@ -101,6 +70,10 @@ function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, ge
     var eventEndDate = `${filter_event_date}T23:59:59Z`;
   }
 
+  if (filter_event_type == null){
+    filter_event_type = ''
+  };
+
   
   // Define Ticketmaster API endpoint and parameters
   var url = "https://app.ticketmaster.com/discovery/v2/events.json";
@@ -111,8 +84,8 @@ function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, ge
   // in the us. The max number is set by size (200 max)
   var params = {
     apikey: apiKey,
-    //classificationName: filter_event_type,
-    keyword: filter_keyword,
+    // classificationName: filter_event_type,
+    keyword: filter_event_type,
     genreId: genreID,
     classificationId: 'KZFzniwnSyZfZ7v7nJ', // this is the filter to be only music events
     startDateTime: eventStartDate, // Default - '2024-06-01T00:00:00Z',
@@ -124,7 +97,6 @@ function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, ge
   // Construct query URL with parameters
   var queryString = new URLSearchParams(params).toString();
   var queryUrl = `${url}?${queryString}`;
-  console.log(queryUrl)
 
   var recordIcon = L.icon({
       iconUrl: 'img/record.png',
@@ -141,7 +113,7 @@ function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, ge
     .then(data => {
 
       if ('_embedded' in data){
-        // console.log(data);
+        console.log(data);
         var eventMarkerList = []
 
         // Extract event information from the response
@@ -149,7 +121,6 @@ function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, ge
         events.forEach(event => {
           const eventName = event.name;
           const eventDate = event.dates.start.localDate
-          // console.log(eventDate);
           venues = event._embedded.venues;
           venues.forEach(venue => {
             const venueName = venue.name;
@@ -183,18 +154,23 @@ document.addEventListener('DOMContentLoaded',getConcertInfo(filter_keyword='', f
 
 const dateInput = document.getElementById("festivalDate");
 dateInput.addEventListener('change', function(selectedDate) {
-    getConcertInfo(filter_keyword='', filter_event_type='', filter_event_date=selectedDate.target.value, genreID=genre_dict['Rock'], map);
+    getConcertInfo(filter_keyword='', filter_event_type=null, filter_event_date=selectedDate.target.value, genreID=genre_dict['Rock'], map);
 });
 
 // Add an event listener for the 'change' event
 genreDropdown.addEventListener('change', function(selectedGenre) {
-  console.log(selectedGenre.target.value)
-  getConcertInfo(filter_keyword='', filter_event_type='', filter_event_date=null, genreID=genre_dict[selectedGenre.target.value], map);  
+  // console.log(selectedGenre.target.value)
+  getConcertInfo(filter_keyword='', filter_event_type=null, filter_event_date=null, genreID=genre_dict[selectedGenre.target.value], map);  
 });
 
 const eventTypeDropdown = document.getElementById('selectEventType');
 // Add an event listener for the 'change' event
 eventTypeDropdown.addEventListener('change', function(selectedEventType) {
-  console.log(selectedEventType.target.value)
-  getConcertInfo(filter_keyword='', filter_event_type=selectedEventType.target.value, filter_event_date=null, genreID=genre_dict['Rock'], map);  
+  // console.log(selectedEventType.target.value)
+  if (selectedEventType.target.value === "Festivals"){
+    eventType = 'Music Festival'
+  } else {
+    eventType = 'Music Concert'
+  }
+  getConcertInfo(filter_keyword='', filter_event_type=eventType, filter_event_date=null, genreID=genre_dict['Rock'], map);  
 });
