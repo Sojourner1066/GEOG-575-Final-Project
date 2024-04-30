@@ -17,6 +17,7 @@ genre_dict = {'Alternative': 'KnvZfZ7vAvv',
               'R&B': 'KnvZfZ7vAee',
               'Other': 'KnvZfZ7vAvl',
               'World': 'KnvZfZ7vAeF',
+  
 }
 
 // Get a reference to the genre dropdown element
@@ -150,11 +151,11 @@ function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, ge
     });
 };
 
-document.addEventListener('DOMContentLoaded',getConcertInfo(filter_keyword='', filter_event_type=null, filter_event_date=null, genreID=genre_dict['Rock'], map))
+document.addEventListener('DOMContentLoaded',getConcertInfo(filter_keyword='', filter_event_type=null, filter_event_date=null, genreID = (Object.values(genre_dict)), map))
 
 const dateInput = document.getElementById("festivalDate");
 dateInput.addEventListener('change', function(selectedDate) {
-    getConcertInfo(filter_keyword='', filter_event_type=null, filter_event_date=selectedDate.target.value, genreID=genre_dict['Rock'], map);
+    getConcertInfo(filter_keyword='', filter_event_type=null, filter_event_date=selectedDate.target.value, genreID = (Object.values(genre_dict)), map);
 });
 
 // Add an event listener for the 'change' event
@@ -172,5 +173,5 @@ eventTypeDropdown.addEventListener('change', function(selectedEventType) {
   } else {
     eventType = 'Music Concert'
   }
-  getConcertInfo(filter_keyword='', filter_event_type=eventType, filter_event_date=null, genreID=genre_dict['Rock'], map);  
+  getConcertInfo(filter_keyword='', filter_event_type=eventType, filter_event_date=null, genreID = (Object.values(genre_dict)), map);  
 });
